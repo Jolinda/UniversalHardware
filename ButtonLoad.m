@@ -42,7 +42,7 @@ function kfile = LoadKeyfile
     disp("Select keyfile");
     [kfilename, kdir] = uigetfile(pwd, 'Select key file', '*.mat');
     kfile = fullfile(kdir, kfilename);
-    if ~kfile
+    if ~kfilename
      answer = questdlg('Run button setup?', ...
             'No keyfile', ...
             'Yes', 'No', 'Yes');
