@@ -9,9 +9,6 @@ function k = ButtonLoad(keyfile)
     
     opts.Interpreter = 'tex';
     
-    % we need this to easily get just the first letter of the keys
-    index = @(x,n) x(n);
-    
     devices_found = 0;
     while ~devices_found    
         clear keys;
@@ -54,7 +51,7 @@ function k = ButtonLoad(keyfile)
             message = [message, "", "Trigger device: " + k.trigger_name];
             message = [message, "", "Left response device: " + k.left_name];
             message = [message, "", "Right response device: " + k.right_name];
-            message = [message, "", "Trigger key: " + KbName(k.trigger)];
+            message = [message, "", "Trigger key: " + PrettyName(k.trigger)];
             message = [message, "", "Left buttons: " + ...
                 PrettyName(k.b0) + " " + ...
                 PrettyName(k.b1) + " " + ...
