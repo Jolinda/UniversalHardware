@@ -61,7 +61,14 @@ function keyfile = ButtonSetup()
 
     keyboard_index = indices(i);
     info = struct2table(infos{i}, 'AsArray', true);
-    keys.keyboard_loc = info.locationID;
+    
+    % this might work better everywhere? but not tested yet
+    if isunix
+        keys.keyboard_loc = info.interfaceID;
+    else
+        keys.keyboard_loc = info.locationID;
+    end
+    
     keys.keyboard_name = names(i);
 
     label.Text = ["Press any button on the triggering device" ...
@@ -71,7 +78,13 @@ function keyfile = ButtonSetup()
 
     trigger_index = indices(i);
     info = struct2table(infos{i}, 'AsArray', true);
-    keys.trigger_loc = info.locationID;
+    
+    % this might work better everywhere? but not tested yet
+    if isunix
+        keys.trigger_loc = info.interfaceID;
+    else
+        keys.trigger_loc = info.locationID;
+    end
     keys.trigger_name = names(i);
 
 
@@ -120,7 +133,14 @@ function keyfile = ButtonSetup()
     [keys.b0, i] = WaitForKbPress(f, indices);
     left_index = indices(i);
     info = struct2table(infos{i}, 'AsArray', true);
-    keys.left_loc = info.locationID;
+            
+    % this might work better everywhere? but not tested yet
+    if isunix
+        keys.left_loc = info.interfaceID;
+    else
+        keys.left_loc = info.locationID;
+    end
+
     keys.left_name = names(i);
     label.Text = str1 + KbName(keys.b0);
     keys.b1 = WaitForKbPress(f, indices);
@@ -138,7 +158,12 @@ function keyfile = ButtonSetup()
 
     right_index = indices(i);
     info = struct2table(infos{i}, 'AsArray', true);
-    keys.right_loc = info.locationID;
+    % this might work better everywhere? but not tested yet
+    if isunix
+        keys.right_loc = info.interfaceID;
+    else
+        keys.right_loc = info.locationID;
+    end
     keys.right_name = names(i);
 
     label.Text = [ str1 + KbName(keys.b4), str2 + KbName(keys.b5)];

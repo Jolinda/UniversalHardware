@@ -15,10 +15,10 @@ function k = ButtonLoad(keyfile)
         load(keyfile, 'keys');
         if exist('keys','var')
             k = keys;
-            k.keyboard_index = GetKeyboardIndices([], [], k.keyboard_loc);
-            k.trigger_index = GetKeyboardIndices([], [], k.trigger_loc);
-            k.left_index = GetKeyboardIndices([], [], k.left_loc);
-            k.right_index = GetKeyboardIndices([], [], k.right_loc);
+            k.keyboard_index = GetIndex(k.keyboard_loc);
+            k.trigger_index = GetIndex(k.trigger_loc);
+            k.left_index = GetIndex(k.left_loc);
+            k.right_index = GetIndex(k.right_loc);
             % convenience - they are only different in the mock
             k.response_indices = unique([k.left_index, k.right_index]);
 
@@ -114,5 +114,22 @@ function newname = PrettyName(keycode)
     newname = KbName(keycode);
     if length(newname) == 2
         newname = newname(1);
+    end
+end
+
+% under linux (or at least wsl2) I don't have unique locationIDs
+% instead I'm using interfaceID
+function index = GetIndex(location)
+    index = -1;
+    if isunix
+        [indices, ~, infos] = GetKeyboardIndices();
+        for i = 1:length(indices)
+            info = struct2table(infos{i}, 'AsArray', true);
+            if info.interfaceID == location
+                index = indices(i);
+            end
+        end
+    else
+        index = GetKeyboardIndices([], [], location);
     end
 end
