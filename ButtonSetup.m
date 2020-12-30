@@ -5,7 +5,9 @@
 function keyfile = ButtonSetup()
     KbName('UnifyKeyNames');
 
-    % in case someone left us in a bad state
+    %reset devices
+    clear PsychHID;
+    clear KbCheck;
     DisableKeysForKbCheck([]); 
 
     % all keys should be the integer values!
@@ -48,22 +50,24 @@ function keyfile = ButtonSetup()
     if strcmp(response, 'Yes')
         keyfile = uigetfile('*.mat', 'Open file');
         if keyfile
-            load(keyfile);
+            load(keyfile, keys);
         end
     end
 
     orig_keys = keys;
 
     figure(f);
-    label.Text = "Click anywhere in this space, then press any button on your keyboard";
-
+    if isunix && ~ismac
+        label.Text = "Click on window title, then press any button on your keyboard";
+    else
+        label.Text = "Click anywhere in this space, then press any button on your keyboard";
+    end
+    
     [~, i] = WaitForKbPress(f, indices);
 
-    keyboard_index = indices(i);
     info = struct2table(infos{i}, 'AsArray', true);
     
-    % this might work better everywhere? but not tested yet
-    if isunix
+    if isunix && ~ismac
         keys.keyboard_loc = info.interfaceID;
     else
         keys.keyboard_loc = info.locationID;
@@ -79,8 +83,7 @@ function keyfile = ButtonSetup()
     trigger_index = indices(i);
     info = struct2table(infos{i}, 'AsArray', true);
     
-    % this might work better everywhere? but not tested yet
-    if isunix
+    if isunix && ~ismac
         keys.trigger_loc = info.interfaceID;
     else
         keys.trigger_loc = info.locationID;
@@ -131,11 +134,9 @@ function keyfile = ButtonSetup()
     str1 = "Press left response buttons from left to right: ";
     label.Text = str1;
     [keys.b0, i] = WaitForKbPress(f, indices);
-    left_index = indices(i);
     info = struct2table(infos{i}, 'AsArray', true);
             
-    % this might work better everywhere? but not tested yet
-    if isunix
+    if isunix && ~ismac
         keys.left_loc = info.interfaceID;
     else
         keys.left_loc = info.locationID;
@@ -156,10 +157,9 @@ function keyfile = ButtonSetup()
     label.Text = [ str1 + KbName(keys.b4), str2];
     [keys.b5, i] = WaitForKbPress(f, indices);
 
-    right_index = indices(i);
     info = struct2table(infos{i}, 'AsArray', true);
     % this might work better everywhere? but not tested yet
-    if isunix
+    if isunix && ~ismac
         keys.right_loc = info.interfaceID;
     else
         keys.right_loc = info.locationID;

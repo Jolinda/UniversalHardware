@@ -117,11 +117,11 @@ function newname = PrettyName(keycode)
     end
 end
 
-% under linux (or at least wsl2) I don't have unique locationIDs
-% instead I'm using interfaceID
+% under linux we don't have unique locationIDs
+% instead we use interfaceID
 function index = GetIndex(location)
     index = -1;
-    if isunix
+    if isunix && ~ismac
         [indices, ~, infos] = GetKeyboardIndices();
         for i = 1:length(indices)
             info = struct2table(infos{i}, 'AsArray', true);
