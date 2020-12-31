@@ -7,6 +7,11 @@ function k = ButtonLoad(keyfile)
         error("No keyfile");
     end
     
+    %reset devices
+    clear PsychHID;
+    clear KbCheck;
+    DisableKeysForKbCheck([]); 
+    
     opts.Interpreter = 'tex';
     
     devices_found = 0;
