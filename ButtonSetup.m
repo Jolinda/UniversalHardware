@@ -1,7 +1,3 @@
-% I had hoped to store the indices but they are far too unstable.
-% Will need to store the locationID from PsychHID('Devices')
-% Will need another function to load the keys structure and grab the
-% correct index
 function keyfile = ButtonSetup()
     KbName('UnifyKeyNames');
 
