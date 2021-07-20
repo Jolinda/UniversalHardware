@@ -40,16 +40,17 @@ function keyfile = ButtonSetup()
         KbQueueStart(indices(kn));
     end
 
-    response = uiconfirm(f, 'Open existing keyboard mat file?', 'Open file', ...
-        'Options',{'Yes','No'});
+%% this part just caused problems    
+%    response = uiconfirm(f, 'Open existing keyboard mat file?', 'Open file', ...
+%        'Options',{'Yes','No'});
 
-    if strcmp(response, 'Yes')
-        keyfile = uigetfile('*.mat', 'Open file');
-        if keyfile
-            load(keyfile, keys);
-        end
-    end
-
+%    if strcmp(response, 'Yes')
+%        keyfile = uigetfile('*.mat', 'Open file');
+%        if keyfile
+%            load(keyfile, keys);
+%        end
+%    end
+%%
     orig_keys = keys;
 
     figure(f);
