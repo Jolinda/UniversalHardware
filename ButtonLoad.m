@@ -20,10 +20,10 @@ function k = ButtonLoad(keyfile)
         load(keyfile, 'keys');
         if exist('keys','var')
             k = keys;
-            k.keyboard_index = GetIndex(k.keyboard_loc);
-            k.trigger_index = GetIndex(k.trigger_loc);
-            k.left_index = GetIndex(k.left_loc);
-            k.right_index = GetIndex(k.right_loc);
+            [k.keyboard_index, k.keyboard_name] = GetDevice(k.keyboard_loc);   
+            [k.trigger_index, k.trigger_name] = GetDevice(k.trigger_loc);
+            [k.left_index, k.left_name] = GetDevice(k.left_loc);
+            [k.right_index, k.right_name] = GetDevice(k.right_loc);
             % convenience - they are only different in the mock
             k.response_indices = unique([k.left_index, k.right_index]);
 
@@ -124,17 +124,19 @@ end
 
 % under linux we don't have unique locationIDs
 % instead we use interfaceID
-function index = GetIndex(location)
-    index = -1;
+function [index, name] = GetDevice(location)
+    index = [];
+    name = [];
     if isunix && ~ismac
-        [indices, ~, infos] = GetKeyboardIndices();
+        [indices, names, infos] = GetKeyboardIndices();
         for i = 1:length(indices)
             info = struct2table(infos{i}, 'AsArray', true);
             if info.interfaceID == location
                 index = indices(i);
+                name = names(i);
             end
         end
     else
-        index = GetKeyboardIndices([], [], location);
+        [index, name] = GetKeyboardIndices([], [], location);
     end
 end
